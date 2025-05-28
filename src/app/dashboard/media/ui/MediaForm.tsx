@@ -11,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -36,13 +35,15 @@ export function MediaForm() {
     
     try {
       const dataGenerated = await generateContent({resumeText: values.resume});
-      // const dataGenerated = {}
-      // console.log("Data Generated:", dataGenerated);
+
+      console.log("Generated Data:", dataGenerated);
+
       await generatePortfolio(dataGenerated);
       toast.dismiss(toastId);
       toast.success('Portfolio Content Generated Successfully!');
       console.log("Form values:", values);
     } catch (error) {
+      console.error("Error generating portfolio content:", error);
       toast.dismiss(toastId);
       toast.error('Failed to generate Portfolio Content');
     }

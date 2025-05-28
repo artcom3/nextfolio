@@ -25,13 +25,13 @@ export const getAllExpiriences = async (): Promise<ExperienceInterface[]> => {
 
   return expirience.map(experience => ({
     id: experience.id,
-    jobTitle: experience.jobTitle,
+    role: experience.role,
     company: experience.company,
-    startDate: experience.startDate ? experience.startDate.toISOString() : null,
-    endDate: experience.endDate ? experience.endDate.toISOString() : null,
-    responsibilities: experience.responsibilities,
-    achievements: experience.achievements,
-    technologies: experience.technologies,
+    startDate: experience.startDate,
+    endDate: experience.endDate,
+    description: experience.description,
     userId: experience.userId,
+    createdAt: experience.createdAt,
+    updatedAt: experience.updatedAt,
   }))
 }

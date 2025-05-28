@@ -1,8 +1,26 @@
 
-export default function SkillsPage() {
+import { getUserSkills } from "@/actions/dashboard/skills/get-skills";
+import { DataTable } from "@/components";
+import { skillsColumns } from "./ui/SkillsColumns";
+
+export default async function SkillsPage() {
+  const userSkills = await getUserSkills();
+
   return (
-    <div>
-      <h1>Hello Page</h1>
-    </div>
+    <>
+      <div className="flex items-center">
+        <h1 className="text-lg font-semibold md:text-2xl">Skills</h1>
+      </div>
+      <div
+        className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm" 
+        x-chunk="dashboard-02-chunk-1"
+      >
+        <DataTable 
+          columns={skillsColumns} 
+          data={userSkills}
+          filter={"name"}
+        />
+      </div>
+    </>
   );
 }

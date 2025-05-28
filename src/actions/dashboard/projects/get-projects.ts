@@ -11,13 +11,11 @@ export const getAllProjects = async (): Promise<ProjectInterface[]> => {
 
   return projects.map(project => ({
     id: project.id,
-    name: project.name,
+    title: project.title,
+    category: project.category,
     description: project.description,
-    technologies: project.technologies,
     link: project.link,
-    imageUrl: project.imageUrl,
     status: project.status,
-    metrics: project.metrics,
     userId: project.userId,
     createdAt: project.createdAt,
     updatedAt: project.updatedAt,

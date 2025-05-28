@@ -1,26 +1,12 @@
 "use client"
 
 import { ColumnDef, Row } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import { ProjectInterface } from "@/interfaces";
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge";
 import { DataTableColumnHeader } from "@/components";
-import Link from "next/link";
 import { ExperienceInterface } from "@/interfaces/dashboard/expirience-interface";
 
 export const projectsColumns: ColumnDef<ExperienceInterface>[] = [
   {
-    accessorKey: "jobTitle",
+    accessorKey: "role",
     filterFn: (row: Row<ExperienceInterface>, columnId: string, filterValue: string) => {
       const values = filterValue.toLowerCase().split(' ');
       return values.every(
@@ -30,7 +16,7 @@ export const projectsColumns: ColumnDef<ExperienceInterface>[] = [
         );
     },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Job Title" />
+      <DataTableColumnHeader column={column} title="Role" />
     ),
   },
   {

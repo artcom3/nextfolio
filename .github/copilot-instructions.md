@@ -1,0 +1,1 @@
+We are using [Bun](https://bun.sh/) as our JavaScript runtime and package manager in this project. Please suggest code, scripts, and commands compatible with Bun instead of Node.js or npm/yarn.

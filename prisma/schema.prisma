@@ -13,10 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Enums for standardized fields
-enum SkillType {
-  TECHNICAL
-  SOFT
+/// Enums
+
+enum RoleName {
+  ADMIN
+  USER
 }
 
 enum LanguageLevel {
@@ -24,6 +25,22 @@ enum LanguageLevel {
   INTERMEDIATE
   ADVANCED
   NATIVE
+}
+
+enum SkillCategory {
+  PROGRAMMING_LANGUAGE
+  DESIGN_TOOL
+  FRAMEWORK
+  OTHER
+}
+
+enum ProjectCategory {
+  DEVELOPMENT
+  GRAPHIC_DESIGN
+  INTERIOR
+  UI_UX
+  WRITING
+  OTHER
 }
 
 enum ProjectStatus {
@@ -38,7 +55,50 @@ enum EducationType {
   COURSE
 }
 
+/// Models
+
+model Role {
+  id    Int      @id @default(autoincrement())
+  name  RoleName @unique
+  users User[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  password     String?
+  name         String?
+  bio          String?
+  profileImage String?
+  role         Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  roleId       Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // NextAuth relations
+  accounts           Account[]
+  sessions           Session[]
+  verificationTokens VerificationToken[]
+
+  // Profile & content
+  profile      Profile?
+  languages    Language[]
+  skills       UserSkill[]
+  projects     Project[]
+  experiences  Experience[]
+  educations   Education[]
+  achievements Achievement[]
+  testimonials Testimonial[]
+
+  // Audit & AI
+  changeLogs        ChangeLog[]
+  aiSuggestions     AISuggestion[]
+  aiRecommendations AIRecommendation[]
+  profileSummary    ProfileSummary?
+}
+
 model Account {
+  id                Int      @id @default(autoincrement())
   userId            String
   type              String
   provider          String
@@ -50,56 +110,52 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  @@id([provider, providerAccountId])
+
+  @@unique([provider, providerAccountId])
 }
 
-model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  password      String?
+model Session {
+  sessionToken String   @id @default(cuid())
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  profile       Profile?        // One-to-One relationship with Profile
-  skills        Skill[]
-  projects      Project[]
-  experiences   Experience[]
-  educations    Education[]
-  testimonials  Testimonial[]
-  achievements  Achievement[]
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String?
+
+  @@id([identifier, token])
 }
 
 model Profile {
-  id                 String    @id @default(cuid())
-  userId             String    @unique
-  fullName           String
-  professionalTitle  String?
-  bio                String?
-  location           String?
-  pronouns           String?
-  funFact            String?
-  motto              String?
-  profilePicture     String?
-  phoneNumber        String?
-  languages          Language[] // Relation to a separate Language model
-  socials            Json?      // Flexible JSON for social links
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  fullName          String
+  professionalTitle String?
+  bio               String?
+  location          String?
+  pronouns          String?
+  funFact           String?
+  motto             String?
+  profilePicture    String?
+  phoneNumber       String?
+  socials           Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  languages Language[]
 }
 
 model Language {
@@ -107,112 +163,169 @@ model Language {
   name      String
   level     LanguageLevel
   profileId String
-  profile   Profile       @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  User    User?   @relation(fields: [userId], references: [id])
+  userId  String?
 }
 
 model Skill {
-  id        Int       @id @default(autoincrement())
+  id        Int           @id @default(autoincrement())
   name      String
-  type      SkillType
-  level     String?   // Proficiency level
-  userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category  SkillCategory
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  userSkills   UserSkill[]
+  projectTools ProjectTool[]
+}
+
+model UserSkill {
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  skillId Int
+
+  @@id([userId, skillId])
 }
 
 model Project {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String?
-  technologies String[]  // Array of technologies used
-  link        String?
-  imageUrl    String?
-  status      ProjectStatus
-  metrics     Json?      // JSON for project-related metrics
+  id          Int             @id @default(autoincrement())
   userId      String
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  category    ProjectCategory
+  description String?
+  link        String?
+  status      ProjectStatus
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  images       Image[]
+  projectTools ProjectTool[]
+}
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  projectId Int
+  url       String
+  caption   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model ProjectTool {
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int
+  skill     Skill   @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  skillId   Int
+
+  @@id([projectId, skillId])
 }
 
 model Experience {
-  id             Int       @id @default(autoincrement())
-  jobTitle       String
-  company        String
-  startDate      DateTime?
-  endDate        DateTime?
-  responsibilities String?
-  achievements   String?
-  technologies   String[]  // Array of technologies used
-  userId         String
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          Int       @id @default(autoincrement())
+  userId      String
+  role        String
+  company     String
+  startDate   DateTime
+  endDate     DateTime?
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Education {
-  id          Int       @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
+  userId      String
   type        EducationType
   degree      String
   institution String
   startDate   DateTime
   endDate     DateTime?
   description String?
-  userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Testimonial {
-  id            Int       @id @default(autoincrement())
-  fromName      String
-  fromRole      String?
-  relationship  String?
-  message       String
-  rating        Int?
-  userId        String
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Achievement {
   id          Int       @id @default(autoincrement())
-  name        String
-  date        DateTime?
-  description String?
-  link        String?
   userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  date        DateTime?
+  link        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Session {
-  sessionToken String   @unique
+model Testimonial {
+  id           Int      @id @default(autoincrement())
   userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  fromName     String
+  fromRole     String?
+  relationship String?
+  message      String
+  rating       Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
- 
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
- 
-  @@id([identifier, token])
+
+model ChangeLog {
+  id         Int      @id @default(autoincrement())
+  entityType String
+  entityId   Int
+  fieldName  String?
+  oldValue   Json?
+  newValue   Json?
+  action     String
+  changedAt  DateTime @default(now())
+  changedBy  String?
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String?
+}
+
+model AISuggestion {
+  id         Int      @id @default(autoincrement())
+  userId     String
+  targetType String
+  targetId   Int?
+  prompt     String?
+  suggestion String
+  accepted   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AIRecommendation {
+  id             Int      @id @default(autoincrement())
+  userId         String
+  jobTitle       String?
+  inputJD        String
+  recommendation Json
+  createdAt      DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ProfileSummary {
+  id        Int      @id @default(autoincrement())
+  userId    String   @unique
+  summary   String
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

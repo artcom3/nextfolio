@@ -9,10 +9,23 @@ export const registerUser = async (
   try {
     console.log('registerUser', email, password);
     const hashedPassword = await bcryptjs.hash(password, 10);
+    
+    // Find or create the USER role
+    let userRole = await prisma.role.findUnique({
+      where: { name: 'USER' }
+    });
+    
+    if (!userRole) {
+      userRole = await prisma.role.create({
+        data: { name: 'USER' }
+      });
+    }
+    
     const user = await prisma.user.create({
       data: {
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        roleId: userRole.id
       }
     });
     return {

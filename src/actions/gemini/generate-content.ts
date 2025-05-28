@@ -1,190 +1,202 @@
 "use server";
 
-import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 
 interface Props {
   resumeText: string
 }
 
 export const generateContent = async ({ resumeText }: Props) => {
-
   const schema = {
-    description: "Resume or portfolio data structure",
-    type: SchemaType.OBJECT,
+    type: "object",
     properties: {
       user: {
-        type: SchemaType.OBJECT,
-        description: "User's personal information and related entities",
+        type: "object",
         properties: {
-          name: { type: SchemaType.STRING, description: "Full name of the user", nullable: true },
-          email: { type: SchemaType.STRING, description: "User's email address", nullable: false },
-          // emailVerified: { type: SchemaType.STRING, format: "date-time", description: "Verification timestamp for email", nullable: true },
-          image: { type: SchemaType.STRING, description: "URL of the user's profile image", nullable: true },
-          password: { type: SchemaType.STRING, description: "User's password (hashed)", nullable: true },
+          name: { type: "string" },
+          email: { type: "string" },
+          bio: { type: "string" },
+          profileImage: { type: "string" },
           profile: {
-            type: SchemaType.OBJECT,
-            description: "User profile details",
+            type: "object",
             properties: {
-              fullName: { type: SchemaType.STRING, description: "Full name of the user", nullable: false },
-              professionalTitle: { type: SchemaType.STRING, description: "User's professional title", nullable: true },
-              bio: { type: SchemaType.STRING, description: "Brief biography of the user", nullable: true },
-              location: { type: SchemaType.STRING, description: "User's location", nullable: true },
-              pronouns: { type: SchemaType.STRING, description: "User's pronouns", nullable: true },
-              funFact: { type: SchemaType.STRING, description: "A fun fact about the user", nullable: true },
-              motto: { type: SchemaType.STRING, description: "User's personal motto", nullable: true },
-              profilePicture: { type: SchemaType.STRING, description: "URL of the user's profile picture", nullable: true },
-              phoneNumber: { type: SchemaType.STRING, description: "User's phone number", nullable: true },
-              // socials: {
-              //   type: SchemaType.OBJECT,
-              //   description: "Social media links",
-              //   nullable: true,
-              // },
-              languages: {
-                type: SchemaType.ARRAY,
-                description: "Languages spoken by the user",
-                items: {
-                  type: SchemaType.OBJECT,
-                  properties: {
-                    name: { type: SchemaType.STRING, description: "Language name", nullable: false },
-                    level: { type: SchemaType.STRING, description: "Language proficiency level", enum: ["BEGINNER", "INTERMEDIATE", "ADVANCED", "NATIVE"], nullable: false },
-                  },
-                  required: ["name", "level"],
-                },
-                nullable: true,
-              },
+              fullName: { type: "string" },
+              professionalTitle: { type: "string" },
+              bio: { type: "string" },
+              location: { type: "string" },
+              pronouns: { type: "string" },
+              funFact: { type: "string" },
+              motto: { type: "string" },
+              profilePicture: { type: "string" },
+              phoneNumber: { type: "string" },
+              socials: { type: "string" },
             },
             required: ["fullName"],
           },
-          skills: {
-            type: SchemaType.ARRAY,
-            description: "List of the user's skills",
+          languages: {
+            type: "array",
             items: {
-              type: SchemaType.OBJECT,
+              type: "object",
               properties: {
-                name: { type: SchemaType.STRING, description: "Skill name", nullable: false },
-                type: { type: SchemaType.STRING, description: "Skill type", enum: ["TECHNICAL", "SOFT"], nullable: false },
-                level: { type: SchemaType.STRING, description: "Proficiency level of the skill", nullable: true },
+                name: { type: "string" },
+                level: {
+                  type: "string",
+                  enum: ["BEGINNER", "INTERMEDIATE", "ADVANCED", "NATIVE"],
+                },
               },
-              required: ["name", "type"],
+              required: ["name", "level"],
+            },
+          },
+          skills: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                name: { type: "string" },
+                category: {
+                  type: "string",
+                  enum: ["PROGRAMMING_LANGUAGE", "DESIGN_TOOL", "FRAMEWORK", "OTHER"],
+                },
+              },
+              required: ["name", "category"],
             },
           },
           projects: {
-            type: SchemaType.ARRAY,
-            description: "List of the user's projects",
+            type: "array",
             items: {
-              type: SchemaType.OBJECT,
+              type: "object",
               properties: {
-                name: { type: SchemaType.STRING, description: "Project name", nullable: false },
-                description: { type: SchemaType.STRING, description: "Project description", nullable: true },
-                technologies: {
-                  type: SchemaType.ARRAY,
-                  description: "Technologies used in the project",
-                  items: { type: SchemaType.STRING },
-                  nullable: true,
+                title: { type: "string" },
+                category: {
+                  type: "string",
+                  enum: ["DEVELOPMENT", "GRAPHIC_DESIGN", "INTERIOR", "UI_UX", "WRITING", "OTHER"],
                 },
-                link: { type: SchemaType.STRING, description: "URL to the project", nullable: true },
-                imageUrl: { type: SchemaType.STRING, description: "Image URL for the project", nullable: true },
-                status: { type: SchemaType.STRING, description: "Project status", enum: ["FEATURED", "COLLABORATIVE", "IN_PROGRESS"], nullable: false },
-                // metrics: { type: SchemaType.OBJECT, description: "Additional metrics related to the project", nullable: true },
+                description: { type: "string" },
+                link: { type: "string" },
+                status: {
+                  type: "string",
+                  enum: ["FEATURED", "COLLABORATIVE", "IN_PROGRESS"],
+                },
+                images: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      url: { type: "string" },
+                      caption: { type: "string" },
+                    },
+                    required: ["url"],
+                  },
+                },
+                projectTools: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      name: { type: "string" },
+                      category: {
+                        type: "string",
+                        enum: ["PROGRAMMING_LANGUAGE", "DESIGN_TOOL", "FRAMEWORK", "OTHER"],
+                      },
+                    },
+                    required: ["name", "category"],
+                  },
+                },
               },
-              required: ["name", "status"],
+              required: ["title", "category", "status"],
             },
           },
           experiences: {
-            type: SchemaType.ARRAY,
-            description: "List of the user's work experiences",
+            type: "array",
             items: {
-              type: SchemaType.OBJECT,
+              type: "object",
               properties: {
-                jobTitle: { type: SchemaType.STRING, description: "Job title", nullable: false },
-                company: { type: SchemaType.STRING, description: "Company name", nullable: false },
-                // startDate: { type: SchemaType.STRING, format: "date-time", description: "Start date of the job", nullable: false },
-                // endDate: { type: SchemaType.STRING, format: "date-time", description: "End date of the job", nullable: true },
-                responsibilities: { type: SchemaType.STRING, description: "Job responsibilities", nullable: true },
-                achievements: { type: SchemaType.STRING, description: "Achievements in the role", nullable: true },
-                technologies: {
-                  type: SchemaType.ARRAY,
-                  description: "Technologies used in the job",
-                  items: { type: SchemaType.STRING },
-                  nullable: true,
-                },
+                role: { type: "string" },
+                company: { type: "string" },
+                startDate: { type: "string", format: "date-time" },
+                endDate: { type: "string", format: "date-time" },
+                description: { type: "string" },
               },
-              required: ["jobTitle", "company"],
+              required: ["role", "company", "startDate"],
             },
           },
           educations: {
-            type: SchemaType.ARRAY,
-            description: "List of the user's education history",
+            type: "array",
             items: {
-              type: SchemaType.OBJECT,
+              type: "object",
               properties: {
-                type: { type: SchemaType.STRING, description: "Type of education", enum: ["DEGREE", "CERTIFICATION", "COURSE"], nullable: false },
-                degree: { type: SchemaType.STRING, description: "Degree or certification name", nullable: false },
-                institution: { type: SchemaType.STRING, description: "Institution name", nullable: false },
-                // startDate: { type: SchemaType.STRING, format: "date-time", description: "Start date", nullable: false },
-                // endDate: { type: SchemaType.STRING, format: "date-time", description: "End date", nullable: true },
-                description: { type: SchemaType.STRING, description: "Additional details about the education", nullable: true },
+                type: {
+                  type: "string",
+                  enum: ["DEGREE", "CERTIFICATION", "COURSE"],
+                },
+                degree: { type: "string" },
+                institution: { type: "string" },
+                startDate: { type: "string", format: "date-time" },
+                endDate: { type: "string", format: "date-time" },
+                description: { type: "string" },
               },
-              required: ["type", "degree", "institution"],
+              required: ["type", "degree", "institution", "startDate"],
+            },
+          },
+          achievements: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                title: { type: "string" },
+                description: { type: "string" },
+                date: { type: "string", format: "date-time" },
+                link: { type: "string" },
+              },
+              required: ["title"],
             },
           },
           testimonials: {
-            type: SchemaType.ARRAY,
-            description: "List of testimonials for the user",
+            type: "array",
             items: {
-              type: SchemaType.OBJECT,
+              type: "object",
               properties: {
-                fromName: { type: SchemaType.STRING, description: "Name of the person giving the testimonial", nullable: false },
-                fromRole: { type: SchemaType.STRING, description: "Role of the person giving the testimonial", nullable: true },
-                relationship: { type: SchemaType.STRING, description: "Relationship to the user", nullable: true },
-                message: { type: SchemaType.STRING, description: "Testimonial message", nullable: false },
-                rating: { type: SchemaType.INTEGER, description: "Rating given by the person", nullable: true },
+                fromName: { type: "string" },
+                fromRole: { type: "string" },
+                relationship: { type: "string" },
+                message: { type: "string" },
+                rating: { type: "integer", minimum: 1, maximum: 5 },
               },
               required: ["fromName", "message"],
             },
           },
-          achievements: {
-            type: SchemaType.ARRAY,
-            description: "List of achievements for the user",
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                name: { type: SchemaType.STRING, description: "Name of the achievement", nullable: false },
-                // date: { type: SchemaType.STRING, format: "date-time", description: "Date of the achievement", nullable: true },
-                description: { type: SchemaType.STRING, description: "Description of the achievement", nullable: true },
-                link: { type: SchemaType.STRING, description: "Link to the achievement or related content", nullable: true },
-              },
-              required: ["name"],
-            },
-          },
         },
-        required: ["email", "profile"],
+        required: ["email"],
       },
     },
     required: ["user"],
-  };  
+  };
 
-  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
-  const model = genAI.getGenerativeModel({ 
-    model: "gemini-1.5-flash",
-    generationConfig: {
-      responseMimeType: "application/json",
-      responseSchema: schema,
-    },
-  });
+  const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 
   const prompt = `
-    Generate a JSON file based on the following resume text. Ensure the structure is hierarchical, with sections like "Skills," "Education," and "Work Experience" properly categorized. Each item should include relevant subfields. Provide only a valid JSON output without any additional text or explanation.
+    Generate a JSON object based on the resume text below.
     
     This is the resume:
     ${ resumeText }
     `;
 
   try {
-    const result = await model.generateContent(prompt);
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash-lite",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: schema,
+      },
+    });
+
+    if (!response.text) {
+      throw new Error(`Error generating content`);
+    }
 
     // Parse the response to ensure it's valid JSON
-    const jsonResponse = JSON.parse(result.response.text());
+    const jsonResponse = JSON.parse(response.text);
     console.log(jsonResponse);
 
     return jsonResponse;

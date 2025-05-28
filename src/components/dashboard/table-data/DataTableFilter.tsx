@@ -13,7 +13,7 @@ export function DataTableFilter<TData>({
 }: DataTablePaginationProps<TData>) {
   return (
     <Input
-      placeholder="Filter by name..."
+      placeholder="Filter..."
       value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
       onChange={(event) =>
         table.getColumn(filter)?.setFilterValue(event.target.value)

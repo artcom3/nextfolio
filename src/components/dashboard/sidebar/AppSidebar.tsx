@@ -2,14 +2,12 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import NavMain from "./NavMain"
-import { Command } from "lucide-react"
  
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (

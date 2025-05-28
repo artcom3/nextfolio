@@ -14,12 +14,10 @@ export default async function ProjectsPage() {
       <div
         className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm" 
         x-chunk="dashboard-02-chunk-1"
-      >
-
-        <DataTable 
+      >        <DataTable 
           columns={projectsColumns} 
           data={projects}
-          filter={"name"}
+          filter={"title"}
         />
 
       </div>

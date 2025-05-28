@@ -1,11 +1,11 @@
 export interface ExperienceInterface {
   id?: number;
-  jobTitle: string;
+  role: string;
   company: string;
-  startDate?: string | null;
-  endDate?: string | null;
-  responsibilities?: string | null;
-  achievements?: string | null;
-  technologies: string[];
+  startDate?: Date;
+  endDate?: Date | null;
+  description?: string | null;
   userId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
