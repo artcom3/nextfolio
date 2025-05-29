@@ -166,7 +166,7 @@ export const generateContent = async ({ resumeText }: Props) => {
             },
           },
         },
-        required: ["email"],
+        required: ["email", "experiences"],
       },
     },
     required: ["user"],

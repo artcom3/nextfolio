@@ -1,5 +1,5 @@
 import { DataTable } from "@/components";
-import { projectsColumns } from "./ui/ProjectColumns";
+import { experiencesColumns } from "./ui/ProjectColumns";
 import { getAllExpiriences } from "@/actions/dashboard/expirience/get-expiriences";
 
 export default async function ExperiencePage() {
@@ -14,8 +14,9 @@ export default async function ExperiencePage() {
       <div
         className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm" 
         x-chunk="dashboard-02-chunk-1"
-      >        <DataTable 
-          columns={projectsColumns} 
+      >        
+        <DataTable 
+          columns={experiencesColumns} 
           data={experiences}
           filter={"role"}
         />

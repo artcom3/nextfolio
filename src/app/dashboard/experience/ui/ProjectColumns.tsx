@@ -4,7 +4,7 @@ import { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components";
 import { ExperienceInterface } from "@/interfaces/dashboard/expirience-interface";
 
-export const projectsColumns: ColumnDef<ExperienceInterface>[] = [
+export const experiencesColumns: ColumnDef<ExperienceInterface>[] = [
   {
     accessorKey: "role",
     filterFn: (row: Row<ExperienceInterface>, columnId: string, filterValue: string) => {
