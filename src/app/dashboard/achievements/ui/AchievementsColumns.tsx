@@ -3,6 +3,7 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components";
 import { AchievementInterface } from "@/interfaces";
+import { ActionsCell } from "./ActionsCell";
 
 export const achievementsColumns: ColumnDef<AchievementInterface>[] = [
   {
@@ -50,10 +51,16 @@ export const achievementsColumns: ColumnDef<AchievementInterface>[] = [
           className="text-blue-600 hover:underline truncate block max-w-[200px]"
         >
           {link}
-        </a>
-      ) : (
+        </a>      ) : (
         <span className="text-muted-foreground">No link</span>
       );
     }
+  },
+  {
+    id: "actions",    header: "Actions",
+    cell: ({ row }) => {
+      const achievement = row.original;
+      return <ActionsCell achievement={achievement} />;
+    },
   },
 ];

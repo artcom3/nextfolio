@@ -3,6 +3,7 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components";
 import { UserSkillInterface } from "@/interfaces";
+import { ActionsCell } from "./ActionsCell";
 
 export const skillsColumns: ColumnDef<UserSkillInterface>[] = [
   {
@@ -26,9 +27,15 @@ export const skillsColumns: ColumnDef<UserSkillInterface>[] = [
     accessorKey: "category",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Category" />
-    ),
-    cell: ({ row }) => {
+    ),    cell: ({ row }) => {
       return row.original.skill.category.replace(/_/g, ' ');
     }
+  },
+  {
+    id: "actions",    header: "Actions",
+    cell: ({ row }) => {
+      const skill = row.original;
+      return <ActionsCell userSkill={skill} />;
+    },
   },
 ];

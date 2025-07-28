@@ -5,7 +5,7 @@ import { signOut } from "@/auth";
 export const logout = async() => {
   try {
     await signOut();
-  } catch (error) {
+  } catch {
     return 'Credenctials SingOut';
   }
 }

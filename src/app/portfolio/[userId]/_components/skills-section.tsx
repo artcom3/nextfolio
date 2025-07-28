@@ -11,81 +11,89 @@ interface SkillsSectionProps {
   data: PortfolioData
 }
 
+// Define proper skill type instead of using any
+interface Skill {
+  name: string
+  level: "expert" | "advanced" | "intermediate" | "beginner"
+  years: string
+  trending: boolean
+}
+
 // Enhanced skill data with proficiency levels and visual indicators
 const enhancedSkillsData = {
   "Frontend Development": {
     icon: Code2,
-    color: "blue",
+    color: "blue" as const,
     description: "Creating beautiful, responsive user interfaces",
     skills: [
-      { name: "React", level: "expert", years: "4+", trending: true },
-      { name: "Next.js", level: "expert", years: "3+", trending: true },
-      { name: "TypeScript", level: "advanced", years: "3+", trending: false },
-      { name: "JavaScript", level: "expert", years: "5+", trending: false },
-      { name: "Tailwind CSS", level: "advanced", years: "2+", trending: true },
-      { name: "Framer Motion", level: "intermediate", years: "1+", trending: true },
-      { name: "HTML5", level: "expert", years: "5+", trending: false },
-      { name: "CSS3", level: "expert", years: "5+", trending: false },
+      { name: "React", level: "expert" as const, years: "4+", trending: true },
+      { name: "Next.js", level: "expert" as const, years: "3+", trending: true },
+      { name: "TypeScript", level: "advanced" as const, years: "3+", trending: false },
+      { name: "JavaScript", level: "expert" as const, years: "5+", trending: false },
+      { name: "Tailwind CSS", level: "advanced" as const, years: "2+", trending: true },
+      { name: "Framer Motion", level: "intermediate" as const, years: "1+", trending: true },
+      { name: "HTML5", level: "expert" as const, years: "5+", trending: false },
+      { name: "CSS3", level: "expert" as const, years: "5+", trending: false },
     ],
   },
   "Backend Development": {
     icon: Server,
-    color: "green",
+    color: "green" as const,
     description: "Building scalable server-side applications",
     skills: [
-      { name: "Node.js", level: "advanced", years: "4+", trending: false },
-      { name: "Express.js", level: "advanced", years: "3+", trending: false },
-      { name: "Python", level: "intermediate", years: "2+", trending: false },
-      { name: "REST APIs", level: "expert", years: "4+", trending: false },
-      { name: "GraphQL", level: "intermediate", years: "1+", trending: true },
-      { name: "Microservices", level: "intermediate", years: "2+", trending: true },
+      { name: "Node.js", level: "advanced" as const, years: "4+", trending: false },
+      { name: "Express.js", level: "advanced" as const, years: "3+", trending: false },
+      { name: "Python", level: "intermediate" as const, years: "2+", trending: false },
+      { name: "REST APIs", level: "expert" as const, years: "4+", trending: false },
+      { name: "GraphQL", level: "intermediate" as const, years: "1+", trending: true },
+      { name: "Microservices", level: "intermediate" as const, years: "2+", trending: true },
     ],
   },
   "Database & Storage": {
     icon: Database,
-    color: "purple",
+    color: "purple" as const,
     description: "Managing data with modern database solutions",
     skills: [
-      { name: "PostgreSQL", level: "advanced", years: "3+", trending: false },
-      { name: "MongoDB", level: "intermediate", years: "2+", trending: false },
-      { name: "Redis", level: "intermediate", years: "1+", trending: false },
-      { name: "Prisma", level: "advanced", years: "2+", trending: true },
-      { name: "Supabase", level: "intermediate", years: "1+", trending: true },
+      { name: "PostgreSQL", level: "advanced" as const, years: "3+", trending: false },
+      { name: "MongoDB", level: "intermediate" as const, years: "2+", trending: false },
+      { name: "Redis", level: "intermediate" as const, years: "1+", trending: false },
+      { name: "Prisma", level: "advanced" as const, years: "2+", trending: true },
+      { name: "Supabase", level: "intermediate" as const, years: "1+", trending: true },
     ],
   },
   "Cloud & DevOps": {
     icon: Cloud,
-    color: "orange",
+    color: "orange" as const,
     description: "Deploying and scaling applications in the cloud",
     skills: [
-      { name: "AWS", level: "advanced", years: "3+", trending: false },
-      { name: "Vercel", level: "expert", years: "2+", trending: true },
-      { name: "Docker", level: "intermediate", years: "2+", trending: false },
-      { name: "GitHub Actions", level: "advanced", years: "2+", trending: false },
-      { name: "Terraform", level: "beginner", years: "1+", trending: true },
+      { name: "AWS", level: "advanced" as const, years: "3+", trending: false },
+      { name: "Vercel", level: "expert" as const, years: "2+", trending: true },
+      { name: "Docker", level: "intermediate" as const, years: "2+", trending: false },
+      { name: "GitHub Actions", level: "advanced" as const, years: "2+", trending: false },
+      { name: "Terraform", level: "beginner" as const, years: "1+", trending: true },
     ],
   },
   "Tools & Workflow": {
     icon: Wrench,
-    color: "gray",
+    color: "gray" as const,
     description: "Optimizing development workflow and productivity",
     skills: [
-      { name: "Git", level: "expert", years: "5+", trending: false },
-      { name: "VS Code", level: "expert", years: "5+", trending: false },
-      { name: "Figma", level: "intermediate", years: "2+", trending: false },
-      { name: "Jest", level: "intermediate", years: "2+", trending: false },
-      { name: "Postman", level: "advanced", years: "3+", trending: false },
+      { name: "Git", level: "expert" as const, years: "5+", trending: false },
+      { name: "VS Code", level: "expert" as const, years: "5+", trending: false },
+      { name: "Figma", level: "intermediate" as const, years: "2+", trending: false },
+      { name: "Jest", level: "intermediate" as const, years: "2+", trending: false },
+      { name: "Postman", level: "advanced" as const, years: "3+", trending: false },
     ],
   },
   "Emerging Technologies": {
     icon: Brain,
-    color: "indigo",
+    color: "indigo" as const,
     description: "Exploring cutting-edge technologies and trends",
     skills: [
-      { name: "AI/ML Integration", level: "beginner", years: "1+", trending: true },
-      { name: "WebAssembly", level: "beginner", years: "<1", trending: true },
-      { name: "Web3", level: "beginner", years: "<1", trending: true },
-      { name: "Edge Computing", level: "beginner", years: "1+", trending: true },
+      { name: "AI/ML Integration", level: "beginner" as const, years: "1+", trending: true },
+      { name: "WebAssembly", level: "beginner" as const, years: "<1", trending: true },
+      { name: "Web3", level: "beginner" as const, years: "<1", trending: true },
+      { name: "Edge Computing", level: "beginner" as const, years: "1+", trending: true },
     ],
   },
 }
@@ -160,7 +168,7 @@ const colorVariants = {
   },
 }
 
-export default function SkillsSection({ data }: SkillsSectionProps) {
+export default function SkillsSection({ }: SkillsSectionProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [activeView, setActiveView] = useState<"categories" | "cloud" | "list">("categories")
@@ -200,7 +208,7 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
     },
   }
 
-  const SkillTag = ({ skill, index }: { skill: any; index: number }) => {
+  const SkillTag = ({ skill }: { skill: Skill }) => {
     const levelInfo = skillLevels[skill.level as keyof typeof skillLevels]
     const LevelIcon = levelInfo.icon
 
@@ -283,7 +291,7 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
           animate={isInView ? "animate" : "initial"}
           className="contents"
         >
-          {allSkills.map((skill, index) => {
+          {allSkills.map((skill) => {
             const levelInfo = skillLevels[skill.level as keyof typeof skillLevels]
             const sizeClass =
               skill.level === "expert"
@@ -382,14 +390,14 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
               </div>
 
               <div className="space-y-2">
-                {skillsInLevel.map((skill, index) => (
+                {skillsInLevel.map((skill) => (
                   <motion.div
                     key={skill.name}
                     initial={{ opacity: 0, x: -10 }}
                     animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
                     transition={{
                       duration: 0.3,
-                      delay: Object.keys(skillLevels).indexOf(level) * 0.1 + index * 0.05,
+                      delay: Object.keys(skillLevels).indexOf(level) * 0.1 + 0.05,
                     }}
                     className="flex items-center justify-between py-2 px-3 bg-white dark:bg-gray-800 rounded-lg"
                   >
@@ -561,8 +569,8 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
                     }}
                     className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
                   >
-                    {categoryData.skills.map((skill, index) => (
-                      <SkillTag key={skill.name} skill={skill} index={index} />
+                    {categoryData.skills.map((skill) => (
+                      <SkillTag key={skill.name} skill={skill} />
                     ))}
                   </motion.div>
                 </motion.div>
