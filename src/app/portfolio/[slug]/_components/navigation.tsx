@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react"
 import Image from "next/image"
 import ThemeToggle from "./theme-toggle"
 import { animationConfig } from "../_lib/animation-config"
-import { mockPortfolioData } from "../_lib/mock-data"
+import type { PortfolioData } from "../_lib/types"
 
 const navItems = [
   { name: "Home", href: "#home" },
@@ -17,11 +17,15 @@ const navItems = [
   { name: "Contact", href: "#contact" },
 ]
 
-export default function Navigation() {
+interface NavigationProps {
+  data: PortfolioData
+}
+
+export default function Navigation({ data }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
 
-  const { profile, user } = mockPortfolioData
+  const { profile, user } = data
 
   useEffect(() => {
     const handleScroll = () => {

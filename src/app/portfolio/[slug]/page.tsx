@@ -15,6 +15,32 @@ interface PortfolioProps {
   params: Promise<{ slug: string }>;
 }
 
+// Transform date strings to Date objects recursively
+function transformDates(obj: any): any {
+  if (obj === null || obj === undefined) {
+    return obj;
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(transformDates);
+  }
+  
+  if (typeof obj === 'object') {
+    const transformed: any = {};
+    for (const [key, value] of Object.entries(obj)) {
+      // Transform known date fields
+      if (key.endsWith('At') || key.endsWith('Date') || key === 'date') {
+        transformed[key] = value ? new Date(value as string) : value;
+      } else {
+        transformed[key] = transformDates(value);
+      }
+    }
+    return transformed;
+  }
+  
+  return obj;
+}
+
 async function fetchPortfolioData(slug: string): Promise<PortfolioData> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
@@ -38,10 +64,11 @@ async function fetchPortfolioData(slug: string): Promise<PortfolioData> {
       throw new Error(result.error || 'Failed to fetch portfolio data');
     }
 
-    return result.data;
+    // Transform date strings to Date objects
+    return transformDates(result.data);
   } catch (error) {
     console.error('Error fetching portfolio data:', error);
-    throw error;
+    throw error; // Re-throw the error so it can be handled by the calling code
   }
 }
 
@@ -60,7 +87,7 @@ export default async function Portfolio(props: PortfolioProps) {
   return (
     <ThemeProvider>
       <main className="min-h-screen">
-        <Navigation />
+        <Navigation data={portfolioData} />
         <HeroSection data={portfolioData} />
         <AboutSection data={portfolioData} />
         <SkillsSection data={portfolioData} />

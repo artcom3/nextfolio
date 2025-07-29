@@ -19,6 +19,7 @@ export interface Language {
 export interface Profile {
   id: string
   fullName: string | null
+  slug: string | null
   professionalTitle: string | null
   bio: string | null
   location: string | null
