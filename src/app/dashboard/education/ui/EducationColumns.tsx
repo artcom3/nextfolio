@@ -2,14 +2,13 @@
 
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components";
-import { ExperienceInterface } from "@/interfaces/dashboard/expirience-interface";
+import { EducationInterface } from "@/interfaces/dashboard/education-interface";
 import { ActionsCell } from "./ActionsCell";
-import { ManageExperienceSkillsDialog } from "./ManageExperienceSkillsDialog";
 
-export const experiencesColumns: ColumnDef<ExperienceInterface>[] = [
+export const educationColumns: ColumnDef<EducationInterface>[] = [
   {
-    accessorKey: "role",
-    filterFn: (row: Row<ExperienceInterface>, columnId: string, filterValue: string) => {
+    accessorKey: "degree",
+    filterFn: (row: Row<EducationInterface>, columnId: string, filterValue: string) => {
       const values = filterValue.toLowerCase().split(' ');
       return values.every(
         value => row.getValue<string>(columnId)
@@ -18,14 +17,24 @@ export const experiencesColumns: ColumnDef<ExperienceInterface>[] = [
         );
     },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Role" />
+      <DataTableColumnHeader column={column} title="Degree" />
     ),
   },
   {
-    accessorKey: "company",
+    accessorKey: "institution",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Company" />
+      <DataTableColumnHeader column={column} title="Institution" />
     ),
+  },
+  {
+    accessorKey: "type",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Type" />
+    ),
+    cell: ({ row }) => {
+      const type = row.getValue("type") as string;
+      return type.charAt(0) + type.slice(1).toLowerCase().replace('_', ' ');
+    },
   },
   {
     accessorKey: "startDate",
@@ -50,26 +59,15 @@ export const experiencesColumns: ColumnDef<ExperienceInterface>[] = [
       return endDate ? new Date(endDate).toLocaleDateString("en-US", { 
         year: "numeric", 
         month: "short" 
-            }) : "Present";
-    },  },
-  {
-    id: "skills",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Skills" />
-    ),
-         cell: ({ row }) => {
-       const experience = row.original;
-       return experience.id ? (
-         <div>Skills will be managed via server-side data</div>
-       ) : null;
-     },
+      }) : "Present";
+    },
   },
   {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const experience = row.original;
-      return <ActionsCell experience={experience} />;
+      const education = row.original;
+      return <ActionsCell education={education} />;
     },
   },
-]
+] 

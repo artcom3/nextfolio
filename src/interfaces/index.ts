@@ -1,4 +1,7 @@
 export * from "./dashboard/project-interface"
 export * from "./dashboard/expirience-interface"
+export * from "./dashboard/education-interface"
 export * from "./dashboard/skill-interface" 
 export * from "./dashboard/achievement-interface"
+export * from "./dashboard/profile-interface"
+export * from "./dashboard/experience-skill-interface"

@@ -1,11 +1,13 @@
-import { DataTable } from "@/components";
-import { experiencesColumns } from "./ui/ProjectColumns";
-import { getAllExpiriences } from "@/actions/dashboard/expirience/get-expiriences";
+import { getExperiencesWithSkills } from "@/actions/dashboard/experience/get-experiences-with-skills";
+import { getUserSkills } from "@/actions/dashboard/skills/get-skills";
 import { AddExperienceDialog } from "./ui/AddExperienceDialog";
+import { ExperienceTable } from "./ui/ExperienceTable";
 
 export default async function ExperiencePage() {
-
-  const experiences = await getAllExpiriences()
+  const [experiences, userSkills] = await Promise.all([
+    getExperiencesWithSkills(),
+    getUserSkills()
+  ]);
 
   return (
     <>
@@ -17,10 +19,9 @@ export default async function ExperiencePage() {
         className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm mt-4" 
         x-chunk="dashboard-02-chunk-1"
       >        
-        <DataTable 
-          columns={experiencesColumns} 
-          data={experiences}
-          filter={"role"}
+        <ExperienceTable 
+          experiences={experiences}
+          userSkills={userSkills}
         />
 
       </div>
