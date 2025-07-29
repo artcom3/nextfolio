@@ -27,6 +27,7 @@ export const getUserProfile = async (): Promise<ProfileInterface | null> => {
     id: profile.id,
     userId: profile.userId,
     fullName: profile.fullName,
+    slug: profile.slug || undefined,
     professionalTitle: profile.professionalTitle || undefined,
     bio: profile.bio || undefined,
     location: profile.location || undefined,

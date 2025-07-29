@@ -12,13 +12,13 @@ import { redirect, notFound } from "next/navigation"
 import { PortfolioData } from "./_lib/types"
 
 interface PortfolioProps {
-  params: Promise<{ userId: string }>;
+  params: Promise<{ slug: string }>;
 }
 
-async function fetchPortfolioData(userId: string): Promise<PortfolioData> {
+async function fetchPortfolioData(slug: string): Promise<PortfolioData> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/portfolio/${userId}`, {
+    const response = await fetch(`${baseUrl}/api/portfolio/${slug}`, {
       cache: 'no-store', // Ensure fresh data
       headers: {
         'Content-Type': 'application/json',
@@ -47,13 +47,13 @@ async function fetchPortfolioData(userId: string): Promise<PortfolioData> {
 
 export default async function Portfolio(props: PortfolioProps) {
   const params = await props.params;
-  const userId = params.userId;
+  const slug = params.slug;
 
-  if (!userId) {
+  if (!slug) {
     redirect("/");
   }
 
-  const portfolioData = await fetchPortfolioData(userId);
+  const portfolioData = await fetchPortfolioData(slug);
 
   console.log('Fetched portfolio data:', portfolioData);
 

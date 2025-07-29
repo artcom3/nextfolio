@@ -280,6 +280,16 @@ export default async function generatePortfolio(json: GeneratedPortfolio) {
   const userId = session.user.id;
 
   try {
+    // Verify the user exists before starting transaction
+    const existingUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true }
+    });
+
+    if (!existingUser) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+
     // Start a transaction to ensure data consistency
     await prisma.$transaction(async (tx) => {
       // 1. Update user basic information
@@ -292,7 +302,9 @@ export default async function generatePortfolio(json: GeneratedPortfolio) {
             ...(json.user.profileImage && { profileImage: json.user.profileImage }),
           },
         });
-      }      // 2. Create or update profile
+      }
+
+      // 2. Create or update profile
       const profileData = {
         fullName: json.user.profile.fullName,
         ...(json.user.profile.professionalTitle && { professionalTitle: json.user.profile.professionalTitle }),
@@ -302,7 +314,8 @@ export default async function generatePortfolio(json: GeneratedPortfolio) {
         ...(json.user.profile.funFact && { funFact: json.user.profile.funFact }),
         ...(json.user.profile.motto && { motto: json.user.profile.motto }),
         ...(json.user.profile.profilePicture && { profilePicture: json.user.profile.profilePicture }),
-        ...(json.user.profile.phoneNumber && { phoneNumber: json.user.profile.phoneNumber }),        ...(json.user.profile.socials && { 
+        ...(json.user.profile.phoneNumber && { phoneNumber: json.user.profile.phoneNumber }),
+        ...(json.user.profile.socials && { 
           socials: (() => {
             try {
               // Check if it's already an object
@@ -327,6 +340,9 @@ export default async function generatePortfolio(json: GeneratedPortfolio) {
         }),
       };
 
+      console.log('Attempting profile upsert for userId:', userId);
+      console.log('Profile data:', profileData);
+
       await tx.profile.upsert({
         where: { userId },
         update: profileData,
@@ -343,7 +359,7 @@ export default async function generatePortfolio(json: GeneratedPortfolio) {
       });
 
       if (!profile) {
-        throw new Error("Profile not found");
+        throw new Error("Profile not found after creation");
       }      // 3. Create languages
       if (json.user.languages && json.user.languages.length > 0) {
         await tx.language.createMany({

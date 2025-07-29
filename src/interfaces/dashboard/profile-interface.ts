@@ -2,6 +2,7 @@ export interface ProfileInterface {
   id: string;
   userId: string;
   fullName: string;
+  slug?: string;
   professionalTitle?: string;
   bio?: string;
   location?: string;

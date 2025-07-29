@@ -17,6 +17,7 @@ export type PortfolioApiResponse = {
     profile: {
       id: string;
       fullName: string | null;
+      slug: string | null;
       professionalTitle: string | null;
       bio: string | null;
       location: string | null;
@@ -184,20 +185,19 @@ export type PortfolioApiErrorResponse = {
 };
 
 // URL validation and sanitization utilities
-function isValidUserId(userId: string): boolean {
-  // Check if userId is a valid format (adjust based on your ID format)
-  // For UUIDs: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-  // For cuid: /^c[a-z0-9]{24}$/
-  // For simple alphanumeric: /^[a-zA-Z0-9_-]+$/
+function isValidSlugOrUserId(identifier: string): boolean {
+  // Check if identifier is a valid format (slug or userId)
+  // For slugs: alphanumeric, hyphens, underscores
+  // For userIds: cuid format or other valid ID format
   
   // Basic validation - adjust regex based on your ID format
-  const userIdRegex = /^[a-zA-Z0-9_-]{1,50}$/;
-  return userIdRegex.test(userId);
+  const identifierRegex = /^[a-zA-Z0-9_-]{1,50}$/;
+  return identifierRegex.test(identifier);
 }
 
-function sanitizeUserId(userId: string): string {
+function sanitizeIdentifier(identifier: string): string {
   // Remove any potentially harmful characters
-  return userId.replace(/[^a-zA-Z0-9_-]/g, '').substring(0, 50);
+  return identifier.replace(/[^a-zA-Z0-9_-]/g, '').substring(0, 50);
 }
 
 function validateUrl(url: string): boolean {
@@ -211,35 +211,35 @@ function validateUrl(url: string): boolean {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ userId: string }> }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { userId: rawUserId } = await params;
+    const { slug: rawIdentifier } = await params;
 
-    if (!rawUserId) {
+    if (!rawIdentifier) {
       return NextResponse.json(
-        { error: 'User ID is required' },
+        { error: 'Slug or User ID is required' },
         { status: 400 }
       );
     }
 
-    // Validate and sanitize the userId
-    if (!isValidUserId(rawUserId)) {
+    // Validate and sanitize the identifier
+    if (!isValidSlugOrUserId(rawIdentifier)) {
       return NextResponse.json(
-        { error: 'Invalid user ID format' },
+        { error: 'Invalid slug or user ID format' },
         { status: 400 }
       );
     }
 
-    const userId = sanitizeUserId(rawUserId);    // Extract query parameters for future functionality
-    // const { searchParams } = new URL(request.url);
-    // Future: Add support for includePrivate, format, fields, etc.
-    // const includePrivate = searchParams.get('includePrivate') === 'true';
-    // const format = searchParams.get('format') || 'json';
-    
-    // Fetch complete portfolio data with all relations
-    const portfolio = await prisma.user.findUnique({
-      where: { id: userId },
+    const identifier = sanitizeIdentifier(rawIdentifier);
+
+    // Try to find user by slug first, then by userId
+    let portfolio = await prisma.user.findFirst({
+      where: {
+        profile: {
+          slug: identifier
+        }
+      },
       select: {
         id: true,
         name: true,
@@ -254,6 +254,7 @@ export async function GET(
           select: {
             id: true,
             fullName: true,
+            slug: true,
             professionalTitle: true,
             bio: true,
             location: true,
@@ -444,6 +445,216 @@ export async function GET(
       }
     });
 
+    // If not found by slug, try by userId for backward compatibility
+    if (!portfolio) {
+      portfolio = await prisma.user.findUnique({
+        where: { id: identifier },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          bio: true,
+          profileImage: true,
+          createdAt: true,
+          updatedAt: true,
+          
+          // Profile information with languages
+          profile: {
+            select: {
+              id: true,
+              fullName: true,
+              slug: true,
+              professionalTitle: true,
+              bio: true,
+              location: true,
+              pronouns: true,
+              funFact: true,
+              motto: true,
+              profilePicture: true,
+              phoneNumber: true,
+              socials: true,
+              createdAt: true,
+              updatedAt: true,
+              
+              // Languages through profile relation
+              languages: {
+                select: {
+                  id: true,
+                  name: true,
+                  level: true,
+                  createdAt: true,
+                  updatedAt: true,
+                },
+                orderBy: {
+                  name: 'asc'
+                }
+              }
+            }
+          },
+          
+          // Direct user languages (if any exist)
+          languages: {
+            select: {
+              id: true,
+              name: true,
+              level: true,
+              createdAt: true,
+              updatedAt: true,
+            },
+            orderBy: {
+              name: 'asc'
+            }
+          },
+          
+          // Skills with user skill relationships
+          skills: {
+            select: {
+              skill: {
+                select: {
+                  id: true,
+                  name: true,
+                  category: true,
+                  createdAt: true,
+                  updatedAt: true,
+                }
+              }
+            },
+            orderBy: {
+              skill: {
+                name: 'asc'
+              }
+            }
+          },
+          
+          // Projects with images and tools
+          projects: {
+            select: {
+              id: true,
+              title: true,
+              category: true,
+              description: true,
+              link: true,
+              status: true,
+              createdAt: true,
+              updatedAt: true,
+              
+              // Project images
+              images: {
+                select: {
+                  id: true,
+                  url: true,
+                  caption: true,
+                  createdAt: true,
+                  updatedAt: true,
+                },
+                orderBy: {
+                  createdAt: 'asc'
+                }
+              },
+              
+              // Project tools/skills
+              projectTools: {
+                select: {
+                  skill: {
+                    select: {
+                      id: true,
+                      name: true,
+                      category: true,
+                    }
+                  }
+                },
+                orderBy: {
+                  skill: {
+                    name: 'asc'
+                  }
+                }
+              }
+            },
+            orderBy: {
+              createdAt: 'desc'
+            }
+          },
+          
+          // Work experience
+          experiences: {
+            select: {
+              id: true,
+              role: true,
+              company: true,
+              startDate: true,
+              endDate: true,
+              description: true,
+              createdAt: true,
+              updatedAt: true,
+            },
+            orderBy: {
+              startDate: 'desc'
+            }
+          },
+          
+          // Education
+          educations: {
+            select: {
+              id: true,
+              type: true,
+              degree: true,
+              institution: true,
+              startDate: true,
+              endDate: true,
+              description: true,
+              createdAt: true,
+              updatedAt: true,
+            },
+            orderBy: {
+              startDate: 'desc'
+            }
+          },
+          
+          // Achievements
+          achievements: {
+            select: {
+              id: true,
+              title: true,
+              description: true,
+              date: true,
+              link: true,
+              createdAt: true,
+              updatedAt: true,
+            },
+            orderBy: {
+              date: 'desc'
+            }
+          },
+          
+          // Testimonials
+          testimonials: {
+            select: {
+              id: true,
+              fromName: true,
+              fromRole: true,
+              relationship: true,
+              message: true,
+              rating: true,
+              createdAt: true,
+              updatedAt: true,
+            },
+            orderBy: {
+              createdAt: 'desc'
+            }
+          },
+          
+          // Profile summary (AI-generated summary if exists)
+          profileSummary: {
+            select: {
+              id: true,
+              summary: true,
+              updatedAt: true,
+            }
+          }
+        }
+      });
+    }
+
     if (!portfolio) {
       return NextResponse.json(
         { error: 'Portfolio not found' },
@@ -603,4 +814,4 @@ export async function OPTIONS() {
       'Access-Control-Allow-Headers': 'Content-Type',
     },
   });
-}
+} 

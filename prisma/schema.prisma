@@ -142,6 +142,7 @@ model Profile {
   id                String   @id @default(cuid())
   userId            String   @unique
   fullName          String
+  slug              String?  @unique
   professionalTitle String?
   bio               String?
   location          String?
