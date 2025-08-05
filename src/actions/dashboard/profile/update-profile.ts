@@ -55,7 +55,7 @@ export const updateBasicInfo = async (data: {
     motto: profile.motto || undefined,
     profilePicture: profile.profilePicture || undefined,
     phoneNumber: profile.phoneNumber || undefined,
-    socials: profile.socials ? (profile.socials as any) : undefined,
+    socials: profile.socials ? (profile.socials as { linkedin?: string; github?: string; twitter?: string }) : undefined,
     createdAt: profile.createdAt,
     updatedAt: profile.updatedAt,
   };
@@ -109,7 +109,7 @@ export const updateAdditionalDetails = async (data: {
     motto: profile.motto || undefined,
     profilePicture: profile.profilePicture || undefined,
     phoneNumber: profile.phoneNumber || undefined,
-    socials: profile.socials ? (profile.socials as any) : undefined,
+    socials: profile.socials ? (profile.socials as { linkedin?: string; github?: string; twitter?: string }) : undefined,
     createdAt: profile.createdAt,
     updatedAt: profile.updatedAt,
   };
@@ -156,7 +156,7 @@ export const updateSocialMedia = async (socials: {
     motto: profile.motto || undefined,
     profilePicture: profile.profilePicture || undefined,
     phoneNumber: profile.phoneNumber || undefined,
-    socials: profile.socials ? (profile.socials as any) : undefined,
+    socials: profile.socials ? (profile.socials as { linkedin?: string; github?: string; twitter?: string }) : undefined,
     createdAt: profile.createdAt,
     updatedAt: profile.updatedAt,
   };
@@ -293,7 +293,7 @@ export const updateSlug = async (slug: string): Promise<{
         motto: profile.motto || undefined,
         profilePicture: profile.profilePicture || undefined,
         phoneNumber: profile.phoneNumber || undefined,
-        socials: profile.socials ? (profile.socials as any) : undefined,
+        socials: profile.socials ? (profile.socials as { linkedin?: string; github?: string; twitter?: string }) : undefined,
         createdAt: profile.createdAt,
         updatedAt: profile.updatedAt,
       },

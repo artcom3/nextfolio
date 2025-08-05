@@ -16,7 +16,7 @@ interface PortfolioProps {
 }
 
 // Transform date strings to Date objects recursively
-function transformDates(obj: any): any {
+function transformDates(obj: unknown): unknown {
   if (obj === null || obj === undefined) {
     return obj;
   }
@@ -26,7 +26,7 @@ function transformDates(obj: any): any {
   }
   
   if (typeof obj === 'object') {
-    const transformed: any = {};
+    const transformed: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(obj)) {
       // Transform known date fields
       if (key.endsWith('At') || key.endsWith('Date') || key === 'date') {
@@ -65,7 +65,7 @@ async function fetchPortfolioData(slug: string): Promise<PortfolioData> {
     }
 
     // Transform date strings to Date objects
-    return transformDates(result.data);
+    return transformDates(result.data) as PortfolioData;
   } catch (error) {
     console.error('Error fetching portfolio data:', error);
     throw error; // Re-throw the error so it can be handled by the calling code

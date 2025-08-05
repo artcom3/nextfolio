@@ -1,15 +1,20 @@
 "use client"
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { Plus } from "lucide-react"
+import { toast } from "sonner"
+
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -17,82 +22,87 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { ProjectInterface } from "@/interfaces";
-import { ProjectCategory, ProjectStatus } from "@/generated/prisma";
-import { toast } from "sonner";
+} from "@/components/ui/select"
+import { addProject } from "@/actions/dashboard/projects/add-project"
 
 const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  category: z.string().min(1, "Category is required"),
+  title: z.string().min(1, { message: "Title is required" }),
+  category: z.enum(["DEVELOPMENT", "GRAPHIC_DESIGN", "INTERIOR", "UI_UX", "WRITING", "OTHER"], { 
+    message: "Category is required" 
+  }),
   description: z.string().optional(),
   link: z.string().optional(),
-  status: z.string().min(1, "Status is required"),
-});
+  status: z.enum(["FEATURED", "COLLABORATIVE", "IN_PROGRESS"], { 
+    message: "Status is required" 
+  }),
+})
 
-interface EditProjectDialogProps {
-  project: ProjectInterface;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSave: (data: Partial<ProjectInterface>) => Promise<void>;
-}
-
-export function EditProjectDialog({
-  project,
-  open,
-  onOpenChange,
-  onSave,
-}: EditProjectDialogProps) {
-  const [isLoading, setIsLoading] = useState(false);
+export function AddProjectDialog() {
+  const [open, setOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: project.title || "",
-      category: project.category || "",
-      description: project.description || "",
-      link: project.link || "",
-      status: project.status || "",
+      title: "",
+      category: "DEVELOPMENT",
+      description: "",
+      link: "",
+      status: "IN_PROGRESS",
     },
-  });  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
+  })
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true)
     try {
-      await onSave({
+      const projectData = {
         title: values.title,
-        category: values.category as ProjectCategory,
-        description: values.description,
-        link: values.link,
-        status: values.status as ProjectStatus,
-      });
-      toast.success("Project updated successfully");
-      onOpenChange(false);
+        category: values.category,
+        description: values.description || null,
+        link: values.link || null,
+        status: values.status,
+      }
+
+      const result = await addProject(projectData)
+
+      if (result.success) {
+        toast.success(result.message)
+        form.reset()
+        setOpen(false)
+      } else {
+        toast.error(result.message)
+      }
     } catch (error) {
-      toast.error("Failed to update project");
-      console.error("Error updating project:", error);
+      console.error("Error adding project:", error)
+      toast.error("Failed to add project. Please try again.")
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[525px]">
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button>
+          <Plus className="mr-2 h-4 w-4" />
+          Add Project
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Project</DialogTitle>
+          <DialogTitle>Add New Project</DialogTitle>
           <DialogDescription>
-            Make changes to your project. Click save when you&apos;re done.
+            Add your project details here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -102,9 +112,9 @@ export function EditProjectDialog({
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title *</FormLabel>
+                  <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="My Awesome Project" {...field} />
+                    <Input placeholder="Project Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -116,7 +126,7 @@ export function EditProjectDialog({
                 name="category"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category *</FormLabel>
+                    <FormLabel>Category</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
@@ -124,11 +134,11 @@ export function EditProjectDialog({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="WEB_APP">Web App</SelectItem>
-                        <SelectItem value="MOBILE_APP">Mobile App</SelectItem>
-                        <SelectItem value="DESKTOP_APP">Desktop App</SelectItem>
-                        <SelectItem value="API">API</SelectItem>
-                        <SelectItem value="LIBRARY">Library</SelectItem>
+                        <SelectItem value="DEVELOPMENT">Development</SelectItem>
+                        <SelectItem value="GRAPHIC_DESIGN">Graphic Design</SelectItem>
+                        <SelectItem value="INTERIOR">Interior</SelectItem>
+                        <SelectItem value="UI_UX">UI/UX</SelectItem>
+                        <SelectItem value="WRITING">Writing</SelectItem>
                         <SelectItem value="OTHER">Other</SelectItem>
                       </SelectContent>
                     </Select>
@@ -141,7 +151,7 @@ export function EditProjectDialog({
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status *</FormLabel>
+                    <FormLabel>Status</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
@@ -149,11 +159,9 @@ export function EditProjectDialog({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="PLANNING">Planning</SelectItem>
+                        <SelectItem value="FEATURED">Featured</SelectItem>
+                        <SelectItem value="COLLABORATIVE">Collaborative</SelectItem>
                         <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-                        <SelectItem value="COMPLETED">Completed</SelectItem>
-                        <SelectItem value="ON_HOLD">On Hold</SelectItem>
-                        <SelectItem value="CANCELLED">Cancelled</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -166,7 +174,7 @@ export function EditProjectDialog({
               name="link"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Project Link</FormLabel>
+                  <FormLabel>Link</FormLabel>
                   <FormControl>
                     <Input placeholder="https://github.com/username/project" {...field} />
                   </FormControl>
@@ -191,22 +199,22 @@ export function EditProjectDialog({
                 </FormItem>
               )}
             />
-            <DialogFooter>
+            <div className="flex justify-end space-x-2">
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => onOpenChange(false)}
+                onClick={() => setOpen(false)}
                 disabled={isLoading}
               >
                 Cancel
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Saving..." : "Save changes"}
+                {isLoading ? "Adding..." : "Add Project"}
               </Button>
-            </DialogFooter>
+            </div>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
-  );
-}
+  )
+} 

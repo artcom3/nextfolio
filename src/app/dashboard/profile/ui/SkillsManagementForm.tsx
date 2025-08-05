@@ -64,7 +64,7 @@ export function SkillsManagementForm({ initialSkills }: SkillsManagementFormProp
       {userSkills.length === 0 ? (
         <div className="text-center py-8">
           <p className="text-muted-foreground">No skills added yet.</p>
-          <p className="text-sm text-muted-foreground">Click "Create Skill" to get started!</p>
+          <p className="text-sm text-muted-foreground">Click &quot;Create Skill&quot; to get started!</p>
         </div>
       ) : (
         <div className="space-y-6">

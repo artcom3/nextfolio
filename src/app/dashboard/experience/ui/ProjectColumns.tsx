@@ -4,7 +4,7 @@ import { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components";
 import { ExperienceInterface } from "@/interfaces/dashboard/expirience-interface";
 import { ActionsCell } from "./ActionsCell";
-import { ManageExperienceSkillsDialog } from "./ManageExperienceSkillsDialog";
+
 
 export const experiencesColumns: ColumnDef<ExperienceInterface>[] = [
   {

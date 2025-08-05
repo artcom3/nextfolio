@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
-import { LanguageLevel, SkillCategory, ProjectCategory, ProjectStatus, EducationType } from "@prisma/client";
+import { LanguageLevel, SkillCategory, ProjectCategory, ProjectStatus, EducationType } from "@/generated/prisma";
 
 // Helper functions to validate and convert string values to enums
 function validateLanguageLevel(level: string): LanguageLevel {

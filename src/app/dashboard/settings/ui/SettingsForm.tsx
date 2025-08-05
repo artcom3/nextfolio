@@ -62,7 +62,7 @@ export default function SettingsForm({ profile }: SettingsFormProps) {
       setCopied(true);
       toast.success("URL copied to clipboard!");
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
+    } catch {
       toast.error("Failed to copy URL");
     }
   };

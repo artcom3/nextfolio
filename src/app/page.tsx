@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function HomePage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
@@ -38,7 +39,7 @@ export default function HomePage() {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [])
+  }, [testimonials.length])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -102,7 +103,11 @@ export default function HomePage() {
                 </a>
               </div>
             </div>
-            <Button className="bg-[#5D5FEC] hover:bg-[#4B4DD8] text-white">Get Started</Button>
+            <Button className="bg-[#5D5FEC] hover:bg-[#4B4DD8] text-white" asChild>
+              <Link href="/dashboard">
+                Get Started
+              </Link>
+            </Button>
           </div>
         </div>
       </nav>
@@ -126,9 +131,11 @@ export default function HomePage() {
               Build stunning, data-driven portfolios that showcase your work and grow your audience—no code required.
             </motion.p>
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <Button size="lg" className="bg-[#5D5FEC] hover:bg-[#4B4DD8] text-white px-8 py-4 text-lg">
-                Start for free
-                <ArrowRight className="ml-2 h-5 w-5" />
+              <Button size="lg" className="bg-[#5D5FEC] hover:bg-[#4B4DD8] text-white px-8 py-4 text-lg" asChild>
+                <Link href="/dashboard">
+                  Start for free
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
               <Button size="lg" variant="outline" className="px-8 py-4 text-lg bg-transparent">
                 <Play className="mr-2 h-5 w-5" />
@@ -164,7 +171,7 @@ export default function HomePage() {
                 }}
               >
                 <Image
-                  src="/placeholder.svg?height=600&width=1000"
+                  src="/Dashboard.png"
                   alt="NextFolio Dashboard"
                   width={1000}
                   height={600}
@@ -197,7 +204,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center space-x-3 text-gray-600">
                   <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                  <span>Generic templates that look like everyone else's</span>
+                  <span>Generic templates that look like everyone else&apos;s</span>
                 </div>
               </div>
             </div>
@@ -447,7 +454,7 @@ export default function HomePage() {
                         <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                       ))}
                     </div>
-                    <p className="text-gray-600 mb-6 text-lg">"{testimonials[currentTestimonial].text}"</p>
+                    <p className="text-gray-600 mb-6 text-lg">&quot;{testimonials[currentTestimonial].text}&quot;</p>
                     <div className="flex items-center justify-center">
                       <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
                       <div>
@@ -481,7 +488,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Simple, transparent pricing</h2>
-            <p className="text-xl text-gray-600">Start free, upgrade when you're ready</p>
+            <p className="text-xl text-gray-600">Start free, upgrade when you&apos;re ready</p>
           </div>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <Card className="p-8 border-2">
@@ -520,13 +527,13 @@ export default function HomePage() {
               <CardContent className="p-0">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Pro</h3>
                 <p className="text-4xl font-bold text-gray-900 mb-6">
-                  $12<span className="text-lg font-normal text-gray-600">/month</span>
+                  $5<span className="text-lg font-normal text-gray-600">/month</span>
                 </p>
                 <ul className="space-y-3 mb-8">
-                  <li className="flex items-center">
+                  {/* <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
                     <span>Unlimited portfolios</span>
-                  </li>
+                  </li> */}
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
                     <span>Premium templates</span>

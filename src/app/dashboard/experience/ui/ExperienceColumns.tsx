@@ -7,9 +7,7 @@ import { ActionsCell } from "./ActionsCell";
 import { ManageExperienceSkillsDialog } from "./ManageExperienceSkillsDialog";
 import { Badge } from "@/components/ui/badge";
 
-interface ExperienceColumnsProps {
-  userSkills: UserSkillInterface[];
-}
+
 
 export const createExperienceColumns = (userSkills: UserSkillInterface[]): ColumnDef<ExperienceWithSkillsInterface>[] => [
   {

@@ -1,4 +1,4 @@
-import { ProjectStatus, ProjectCategory } from "@prisma/client";
+import { ProjectStatus, ProjectCategory } from "@/generated/prisma";
 
 
 export interface ProjectInterface {

@@ -60,7 +60,7 @@ export function ManageExperienceSkillsDialog({
       const currentSkillIds = new Set(experienceSkills.map(es => es.skillId));
       setSelectedSkills(currentSkillIds);
     }
-  }, [open]); // Remove experienceSkills from dependency to prevent dialog closure
+  }, [open, experienceSkills]);
 
   const handleAddSkill = async () => {
     if (!selectedSkillToAdd) return;

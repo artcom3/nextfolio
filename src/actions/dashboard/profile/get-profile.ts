@@ -36,7 +36,7 @@ export const getUserProfile = async (): Promise<ProfileInterface | null> => {
     motto: profile.motto || undefined,
     profilePicture: profile.profilePicture || undefined,
     phoneNumber: profile.phoneNumber || undefined,
-    socials: profile.socials ? (profile.socials as any) : undefined,
+    socials: profile.socials ? (profile.socials as { linkedin?: string; github?: string; twitter?: string }) : undefined,
     createdAt: profile.createdAt,
     updatedAt: profile.updatedAt,
   };

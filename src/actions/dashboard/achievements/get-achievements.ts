@@ -18,10 +18,11 @@ export const getAllAchievements = async (): Promise<AchievementInterface[]> => {
     }
   });
 
-  return achievements.map(achievement => ({
+  return achievements.map((achievement): AchievementInterface => ({
     id: achievement.id,
     title: achievement.title,
     description: achievement.description,
+    date: achievement.date,
     link: achievement.link,
     userId: achievement.userId,
     createdAt: achievement.createdAt,

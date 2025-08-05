@@ -15,7 +15,7 @@ import {
 import { Trash2, Plus } from "lucide-react";
 import { getUserLanguages } from "@/actions/dashboard/profile/get-profile";
 import { updateLanguages } from "@/actions/dashboard/profile/update-profile";
-import { LanguageInterface } from "@/interfaces";
+
 
 type Language = {
   id?: number;

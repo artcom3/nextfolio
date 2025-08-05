@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { getUserProfile } from "@/actions/dashboard/profile/get-profile";
 import { updateBasicInfo } from "@/actions/dashboard/profile/update-profile";
-import { ProfileInterface } from "@/interfaces";
+
 
 const formSchema = z.object({
   fullName: z.string().min(1, { message: "Full Name is required" }),
