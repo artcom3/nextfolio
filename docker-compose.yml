@@ -9,7 +9,13 @@ services:
     depends_on:
       - db
     networks:
-      - nextfolio_network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.<unique-name>.rule=Host(`nextfolio.creamax.dev`)"
+      - "traefik.http.routers.<unique-name>.entrypoints=websecure"
+      - "traefik.http.routers.<unique-name>.tls.certResolver=letsencrypt"
+      - "traefik.http.services.<unique-name>.loadbalancer.server.port=3000"
 
   db:
     image: postgres:latest
@@ -23,12 +29,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-    - nextfolio_network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.<unique-name>.rule=Host(`your-domain.com`)"
+      - "traefik.http.routers.<unique-name>.entrypoints=websecure"
+      - "traefik.http.routers.<unique-name>.tls.certResolver=letsencrypt"
+      - "traefik.http.services.<unique-name>.loadbalancer.server.port=3000"
 
 volumes:
   postgres_data:
 
 networks:
-  nextfolio_network:
-    name: nextfolio_network
-    driver: bridge
+  dokploy-network:
+    external: true
