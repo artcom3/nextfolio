@@ -1,7 +1,7 @@
 "use server"
 
 import { ProjectInterface } from "@/interfaces/dashboard/project-interface";
-import { ProjectCategory, ProjectStatus } from "@/generated/prisma";
+import { ProjectCategory, ProjectStatus } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";

@@ -58,7 +58,6 @@ export default function HomePage() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut",
       },
     },
   }
@@ -70,7 +69,6 @@ export default function HomePage() {
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
       },
     },
   }
@@ -152,7 +150,7 @@ export default function HomePage() {
             animate={heroInView ? "visible" : "hidden"}
             whileHover={{
               y: -10,
-              transition: { duration: 0.3, ease: "easeOut" },
+              transition: { duration: 0.3 },
             }}
           >
             <div className="bg-gray-900 rounded-t-xl p-3">
@@ -167,7 +165,7 @@ export default function HomePage() {
               <motion.div
                 whileHover={{
                   scale: 1.02,
-                  transition: { duration: 0.3, ease: "easeOut" },
+                  transition: { duration: 0.3 },
                 }}
               >
                 <Image
@@ -367,9 +365,9 @@ export default function HomePage() {
                 <motion.div
                   className="relative overflow-hidden rounded-lg shadow-lg group-hover:shadow-xl transition-shadow"
                   whileHover={{ y: -5 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3, ease: "easeOut" }}>
+                  <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
                     <Image
                       src={template.image || "/placeholder.svg"}
                       alt={`${template.name} Template`}
@@ -445,7 +443,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.5 }}
               >
                 <Card className="p-8 text-center">
                   <CardContent className="p-0">

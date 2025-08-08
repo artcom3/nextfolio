@@ -42,4 +42,4 @@ next-env.d.ts
 public/dev-imgs/
 
 # prisma binary
-/src/generated/prisma
+/src/generated

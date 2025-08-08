@@ -42,7 +42,6 @@ export default function AboutSection({ data }: AboutSectionProps) {
       y: 0,
       transition: {
         duration: animationConfig.duration.slow,
-        ease: animationConfig.easing.smooth,
       },
     },
   }
@@ -58,7 +57,6 @@ export default function AboutSection({ data }: AboutSectionProps) {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{
             duration: animationConfig.duration.slow,
-            ease: animationConfig.easing.smooth,
           }}
           className="text-center mb-16"
         >
@@ -67,7 +65,6 @@ export default function AboutSection({ data }: AboutSectionProps) {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{
               duration: animationConfig.duration.normal,
-              ease: animationConfig.easing.smooth,
             }}
             className="text-4xl font-bold text-gray-900 dark:text-white mb-4"
           >
@@ -79,7 +76,6 @@ export default function AboutSection({ data }: AboutSectionProps) {
             transition={{
               duration: animationConfig.duration.slow,
               delay: 0.2,
-              ease: animationConfig.easing.smooth,
             }}
             className="h-1 bg-blue-600 dark:bg-blue-400 mx-auto"
           />
@@ -92,14 +88,13 @@ export default function AboutSection({ data }: AboutSectionProps) {
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{
               duration: animationConfig.duration.slow,
-              ease: animationConfig.easing.smooth,
             }}
             className="lg:col-span-1 flex justify-center"
           >
             <div className="relative">
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3, ease: animationConfig.easing.smooth }}
+                transition={{ duration: 0.3 }}
                 className="relative w-64 h-64 sm:w-72 sm:h-72"
               >
                 {/* Profile image */}
@@ -136,7 +131,6 @@ export default function AboutSection({ data }: AboutSectionProps) {
                 transition={{
                   duration: animationConfig.duration.normal,
                   delay: 0.5,
-                  ease: animationConfig.easing.spring,
                 }}
                 className="absolute -bottom-4 -right-4 bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg"
               >
@@ -234,14 +228,13 @@ export default function AboutSection({ data }: AboutSectionProps) {
                       scale: 1,
                       transition: {
                         duration: animationConfig.duration.slow,
-                        ease: animationConfig.easing.spring,
                       },
                     },
                   }}
                   whileHover={{
                     scale: 1.05,
                     y: -5,
-                    transition: { duration: 0.2, ease: animationConfig.easing.smooth },
+                    transition: { duration: 0.2 },
                   }}
                   className="text-center p-4 bg-gradient-to-br from-blue-50 to-white dark:from-blue-900/20 dark:to-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
                 >
@@ -251,7 +244,6 @@ export default function AboutSection({ data }: AboutSectionProps) {
                     transition={{
                       duration: animationConfig.duration.normal,
                       delay: 0.4 + index * animationConfig.stagger.fast,
-                      ease: animationConfig.easing.spring,
                     }}
                     className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1"
                   >

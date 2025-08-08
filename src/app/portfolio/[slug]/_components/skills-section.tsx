@@ -191,7 +191,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
       y: 0,
       transition: {
         duration: animationConfig.duration.slow,
-        ease: animationConfig.easing.smooth,
+        
       },
     },
   }
@@ -203,7 +203,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
       scale: 1,
       transition: {
         duration: animationConfig.duration.normal,
-        ease: animationConfig.easing.spring,
+        
       },
     },
   }
@@ -218,7 +218,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
         whileHover={{
           scale: 1.05,
           y: -2,
-          transition: { duration: 0.2, ease: animationConfig.easing.smooth },
+          transition: { duration: 0.2 },
         }}
         className="group relative"
       >
@@ -312,7 +312,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
                     scale: 1,
                     transition: {
                       duration: 0.4,
-                      ease: animationConfig.easing.spring,
+                      
                     },
                   },
                 }}
@@ -431,7 +431,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{
             duration: animationConfig.duration.slow,
-            ease: animationConfig.easing.smooth,
+            
           }}
           className="text-center mb-16"
         >
@@ -440,7 +440,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{
               duration: animationConfig.duration.normal,
-              ease: animationConfig.easing.smooth,
+              
             }}
             className="text-4xl font-bold text-gray-900 dark:text-white mb-4"
           >
@@ -452,7 +452,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
             transition={{
               duration: animationConfig.duration.slow,
               delay: 0.2,
-              ease: animationConfig.easing.smooth,
+              
             }}
             className="h-1 bg-blue-600 dark:bg-blue-400 mx-auto mb-6"
           />
@@ -462,7 +462,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
             transition={{
               duration: animationConfig.duration.normal,
               delay: 0.3,
-              ease: animationConfig.easing.smooth,
+              
             }}
             className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
           >
@@ -477,7 +477,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
           transition={{
             duration: animationConfig.duration.normal,
             delay: 0.4,
-            ease: animationConfig.easing.smooth,
+            
           }}
           className="flex justify-center mb-12"
         >
@@ -538,7 +538,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
                     animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{
                       duration: animationConfig.duration.normal,
-                      ease: animationConfig.easing.smooth,
+                      
                     }}
                     className="flex items-start mb-8"
                   >
@@ -592,7 +592,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
           transition={{
             duration: animationConfig.duration.slow,
             delay: 0.8,
-            ease: animationConfig.easing.smooth,
+            
           }}
           className="mt-16 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-8"
         >
@@ -603,7 +603,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
               transition={{
                 duration: animationConfig.duration.normal,
                 delay: 0.9,
-                ease: animationConfig.easing.spring,
+                
               }}
             >
               <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
@@ -618,7 +618,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
               transition={{
                 duration: animationConfig.duration.normal,
                 delay: 1.0,
-                ease: animationConfig.easing.spring,
+                
               }}
             >
               <div className="text-3xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">
@@ -637,7 +637,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
               transition={{
                 duration: animationConfig.duration.normal,
                 delay: 1.1,
-                ease: animationConfig.easing.spring,
+                
               }}
             >
               <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
@@ -652,7 +652,7 @@ export default function SkillsSection({ }: SkillsSectionProps) {
               transition={{
                 duration: animationConfig.duration.normal,
                 delay: 1.2,
-                ease: animationConfig.easing.spring,
+                
               }}
             >
               <div className="text-3xl font-bold text-red-600 dark:text-red-400 mb-2">

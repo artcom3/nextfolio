@@ -4,4 +4,4 @@ node_modules
 Dockerfile
 docker-compose.yml
 .env
-/src/generated/prisma
+# /src/generated/prisma

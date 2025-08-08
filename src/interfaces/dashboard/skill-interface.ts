@@ -1,4 +1,4 @@
-import { SkillCategory } from "@/generated/prisma";
+import { SkillCategory } from "@prisma/client";
 
 export interface SkillInterface {
   id: number;

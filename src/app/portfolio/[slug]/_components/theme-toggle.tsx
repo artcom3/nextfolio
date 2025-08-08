@@ -27,11 +27,11 @@ export default function ThemeToggle() {
       className="relative p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 overflow-hidden"
       whileHover={{
         scale: 1.05,
-        transition: { duration: 0.2, ease: animationConfig.easing.smooth },
+        transition: { duration: 0.2 },
       }}
       whileTap={{
         scale: 0.95,
-        transition: { duration: 0.1, ease: animationConfig.easing.smooth },
+        transition: { duration: 0.1 },
       }}
       aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
@@ -44,7 +44,7 @@ export default function ThemeToggle() {
         }}
         transition={{
           duration: animationConfig.duration.fast,
-          ease: animationConfig.easing.smooth,
+          
         }}
         className="absolute inset-0 flex items-center justify-center"
       >
@@ -60,7 +60,7 @@ export default function ThemeToggle() {
         }}
         transition={{
           duration: animationConfig.duration.fast,
-          ease: animationConfig.easing.smooth,
+          
         }}
         className="flex items-center justify-center"
       >

@@ -37,10 +37,6 @@ export default function HeroSection({ data }: HeroSectionProps) {
     animate: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: animationConfig.duration.slow,
-        ease: animationConfig.easing.smooth,
-      },
     },
   }
 
@@ -55,7 +51,12 @@ export default function HeroSection({ data }: HeroSectionProps) {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <motion.div variants={containerVariants} initial="initial" animate="animate" className="space-y-8">
-            <motion.div variants={itemVariants} className="space-y-4">
+            <motion.div 
+              variants={itemVariants} 
+              transition={{
+                duration: animationConfig.duration.slow,
+              }}
+              className="space-y-4">
               <motion.p className="text-lg text-blue-600 dark:text-blue-400 font-medium">Hello, I&apos;m</motion.p>
 
               <motion.h1 className="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
@@ -69,13 +70,21 @@ export default function HeroSection({ data }: HeroSectionProps) {
 
             <motion.p
               variants={itemVariants}
+              transition={{
+                duration: animationConfig.duration.slow,
+              }}
               className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed max-w-lg"
             >
               {profile?.bio || user.bio}
             </motion.p>
 
             {profile?.location && (
-              <motion.div variants={itemVariants} className="flex items-center text-gray-600 dark:text-gray-400">
+              <motion.div 
+                variants={itemVariants} 
+                transition={{
+                  duration: animationConfig.duration.slow,
+                }}
+                className="flex items-center text-gray-600 dark:text-gray-400">
                 <MapPin size={20} className="mr-2" />
                 <span>{profile.location}</span>
               </motion.div>
@@ -193,7 +202,6 @@ export default function HeroSection({ data }: HeroSectionProps) {
             transition={{
               duration: animationConfig.duration.slower,
               delay: 0.4,
-              ease: animationConfig.easing.smooth,
             }}
             className="flex justify-center lg:justify-end"
           >
@@ -225,7 +233,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                 {/* Main profile image container */}
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3, ease: animationConfig.easing.smooth }}
+                  transition={{ duration: 0.3 }}
                   className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96"
                 >
                   {/* Profile image */}
@@ -259,7 +267,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    transition={{ delay: 1, duration: 0.5, ease: animationConfig.easing.spring }}
+                    transition={{ delay: 1, duration: 0.5 }}
                     className="absolute bottom-4 right-4 w-6 h-6 bg-green-500 rounded-full border-4 border-white dark:border-gray-800 shadow-lg"
                   >
                     <motion.div
@@ -287,7 +295,6 @@ export default function HeroSection({ data }: HeroSectionProps) {
           transition={{
             duration: animationConfig.duration.normal,
             delay: 1.0,
-            ease: animationConfig.easing.smooth,
           }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         >

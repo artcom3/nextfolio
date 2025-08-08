@@ -66,7 +66,6 @@ export default function Navigation({ data }: NavigationProps) {
       animate={{ y: 0, opacity: 1 }}
       transition={{
         duration: animationConfig.duration.slow,
-        ease: animationConfig.easing.smooth,
       }}
       className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700"
     >
@@ -79,7 +78,7 @@ export default function Navigation({ data }: NavigationProps) {
             transition={{
               duration: animationConfig.duration.normal,
               delay: 0.2,
-              ease: animationConfig.easing.spring,
+              
             }}
             className="flex items-center space-x-3"
           >
@@ -118,7 +117,7 @@ export default function Navigation({ data }: NavigationProps) {
                 transition={{
                   duration: animationConfig.duration.normal,
                   delay: 0.4 + index * animationConfig.stagger.fast,
-                  ease: animationConfig.easing.smooth,
+                  
                 }}
                 onClick={() => scrollToSection(item.href)}
                 className={`text-sm font-medium transition-all duration-300 ease-out ${
@@ -136,7 +135,7 @@ export default function Navigation({ data }: NavigationProps) {
               transition={{
                 duration: animationConfig.duration.normal,
                 delay: 0.7,
-                ease: animationConfig.easing.spring,
+                
               }}
             >
               <ThemeToggle />
@@ -151,7 +150,7 @@ export default function Navigation({ data }: NavigationProps) {
               transition={{
                 duration: animationConfig.duration.normal,
                 delay: 0.4,
-                ease: animationConfig.easing.spring,
+                
               }}
             >
               <ThemeToggle />
@@ -162,14 +161,14 @@ export default function Navigation({ data }: NavigationProps) {
               transition={{
                 duration: animationConfig.duration.normal,
                 delay: 0.5,
-                ease: animationConfig.easing.spring,
+                
               }}
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
             >
               <motion.div
                 animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.3, ease: animationConfig.easing.smooth }}
+                transition={{ duration: 0.3 }}
               >
                 {isOpen ? <X size={24} /> : <Menu size={24} />}
               </motion.div>
@@ -186,7 +185,7 @@ export default function Navigation({ data }: NavigationProps) {
               exit={{ opacity: 0, height: 0 }}
               transition={{
                 duration: animationConfig.duration.fast,
-                ease: animationConfig.easing.smooth,
+                
               }}
               className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 overflow-hidden"
             >
@@ -212,7 +211,7 @@ export default function Navigation({ data }: NavigationProps) {
                     }}
                     transition={{
                       duration: animationConfig.duration.fast,
-                      ease: animationConfig.easing.smooth,
+                      
                     }}
                     onClick={() => scrollToSection(item.href)}
                     className={`block w-full text-left px-3 py-2 text-base font-medium transition-all duration-200 ${

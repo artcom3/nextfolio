@@ -31,7 +31,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { ProjectInterface } from "@/interfaces";
-import { ProjectCategory, ProjectStatus } from "@/generated/prisma";
+import { ProjectCategory, ProjectStatus } from "@prisma/client";
 import { toast } from "sonner";
 
 const formSchema = z.object({

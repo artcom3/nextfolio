@@ -1,11 +1,11 @@
 // Centralized animation configuration for consistent timing and easing
 export const animationConfig = {
-  // Easing functions
+  // Easing functions - using string notation that framer-motion accepts
   easing: {
-    smooth: [0.25, 0.1, 0.25, 1], // Smooth cubic-bezier for most animations
-    spring: [0.34, 1.56, 0.64, 1], // Spring-like effect for interactive elements
-    gentle: [0.4, 0, 0.2, 1], // Gentle easing for subtle animations
-    sharp: [0.4, 0, 0.6, 1], // Sharp easing for quick transitions
+    smooth: "easeInOut", // Smooth easing for most animations
+    spring: "easeOut", // Spring-like effect for interactive elements
+    gentle: "easeOut", // Gentle easing for subtle animations
+    sharp: "easeInOut", // Sharp easing for quick transitions
   },
 
   // Duration presets
@@ -62,6 +62,5 @@ export const createFadeInUpTransition = (delay = 0, duration = animationConfig.d
   transition: {
     duration,
     delay,
-    ease: animationConfig.easing.smooth,
   },
 })
