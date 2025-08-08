@@ -6,7 +6,7 @@
 
 generator client {
   provider      = "prisma-client-js"
-  // runtime       = "bun"
+  runtime       = "bun"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
