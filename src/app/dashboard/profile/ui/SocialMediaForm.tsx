@@ -12,6 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -82,7 +83,7 @@ export function SocialMediaForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="linkedin"
@@ -92,6 +93,7 @@ export function SocialMediaForm() {
               <FormControl>
                 <Input placeholder="https://linkedin.com/in/username" {...field} />
               </FormControl>
+            <FormDescription>Public LinkedIn profile</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -105,6 +107,7 @@ export function SocialMediaForm() {
               <FormControl>
                 <Input placeholder="https://github.com/username" {...field} />
               </FormControl>
+            <FormDescription>Your code portfolio</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -118,13 +121,16 @@ export function SocialMediaForm() {
               <FormControl>
                 <Input placeholder="https://twitter.com/username" {...field} />
               </FormControl>
+            <FormDescription>Optional</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={loading}>
-          {loading ? "Saving..." : "Save Social Media Links"}
-        </Button>
+        <div className="flex justify-end">
+          <Button type="submit" disabled={loading}>
+            {loading ? "Saving..." : "Save Social Media Links"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

@@ -110,7 +110,7 @@ export function CreateSkillDialog() {
           Create Skill
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[560px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Create New Skill</DialogTitle>
           <DialogDescription>
@@ -165,7 +165,7 @@ export function CreateSkillDialog() {
                 render={() => (
                   <FormItem>
                     <FormLabel>Associate with Projects (Optional)</FormLabel>
-                    <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto border rounded-md p-3">
+                    <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto border rounded-md p-3">
                       {projects.map((project) => (
                         <FormField
                           key={project.id}

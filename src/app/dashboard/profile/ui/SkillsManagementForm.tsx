@@ -51,7 +51,7 @@ export function SkillsManagementForm({ initialSkills }: SkillsManagementFormProp
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h3 className="text-lg font-medium">Your Skills</h3>
           <p className="text-sm text-muted-foreground">
@@ -67,13 +67,13 @@ export function SkillsManagementForm({ initialSkills }: SkillsManagementFormProp
           <p className="text-sm text-muted-foreground">Click &quot;Create Skill&quot; to get started!</p>
         </div>
       ) : (
-        <div className="space-y-6">
+          <div className="space-y-6">
           {Object.entries(groupedSkills).map(([category, skills]) => (
             <div key={category}>
               <h4 className="text-sm font-medium text-muted-foreground mb-2">
                 {formatCategory(category)}
               </h4>
-              <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2">
                 {skills.map((userSkill) => (
                   <Badge
                     key={userSkill.skillId}

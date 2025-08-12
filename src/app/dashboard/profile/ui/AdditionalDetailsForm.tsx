@@ -12,6 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -86,7 +87,7 @@ export function AdditionalDetailsForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="funFact"
@@ -96,6 +97,7 @@ export function AdditionalDetailsForm() {
               <FormControl>
                 <Input placeholder="I built a robot that solves Rubik's cubes." {...field} />
               </FormControl>
+            <FormDescription>Something memorable about you (optional)</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -109,6 +111,7 @@ export function AdditionalDetailsForm() {
               <FormControl>
                 <Input placeholder="Code with purpose." {...field} />
               </FormControl>
+            <FormDescription>Your personal tagline (optional)</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -117,13 +120,14 @@ export function AdditionalDetailsForm() {
           control={form.control}
           name="profilePicture"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Profile Picture URL</FormLabel>
-              <FormControl>
-                <Input placeholder="https://example.com/profile_picture.jpg" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          <FormItem>
+            <FormLabel>Profile Picture URL</FormLabel>
+            <FormControl>
+              <Input placeholder="https://example.com/profile_picture.jpg" {...field} />
+            </FormControl>
+            <FormDescription>Optional fallback URL; prefer uploading in the Profile Picture card</FormDescription>
+            <FormMessage />
+          </FormItem>
           )}
         />
         <FormField
@@ -135,13 +139,16 @@ export function AdditionalDetailsForm() {
               <FormControl>
                 <Input placeholder="+1-385-461-5172" {...field} />
               </FormControl>
+            <FormDescription>Shown on your portfolio contact section (optional)</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={loading}>
-          {loading ? "Saving..." : "Save Additional Details"}
-        </Button>
+        <div className="flex justify-end">
+          <Button type="submit" disabled={loading}>
+            {loading ? "Saving..." : "Save Additional Details"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

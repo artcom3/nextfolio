@@ -12,6 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -86,8 +87,8 @@ export function BasicInfoForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="fullName"
@@ -97,6 +98,7 @@ export function BasicInfoForm() {
                   <FormControl>
                     <Input placeholder="Enter your full name" {...field} />
                   </FormControl>
+                <FormDescription>Displayed prominently on your portfolio</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -110,6 +112,7 @@ export function BasicInfoForm() {
                   <FormControl>
                     <Input placeholder="Your professional title" {...field} />
                   </FormControl>
+                <FormDescription>e.g., Frontend Developer, Product Designer</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -122,13 +125,14 @@ export function BasicInfoForm() {
               <FormItem>
                 <FormLabel>Bio</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Write a short bio about yourself" {...field} />
+                  <Textarea rows={4} placeholder="Write a short bio about yourself" {...field} />
                 </FormControl>
+              <FormDescription>Keep it concise. This appears in the About section.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="location"
@@ -138,6 +142,7 @@ export function BasicInfoForm() {
                   <FormControl>
                     <Input placeholder="Enter your location" {...field} />
                   </FormControl>
+                <FormDescription>City, Country (optional)</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -151,14 +156,17 @@ export function BasicInfoForm() {
                   <FormControl>
                     <Input placeholder="e.g., They/Them, He/Him" {...field} />
                   </FormControl>
+                <FormDescription>Optional</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Saving..." : "Save Basic Information"}
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" disabled={loading}>
+              {loading ? "Saving..." : "Save Basic Information"}
+            </Button>
+          </div>
         </form>
       </Form>
   );

@@ -129,7 +129,7 @@ export default function ExperienceSection({ data }: ExperienceSectionProps) {
                     transition={{ duration: 0.8, delay: 0.5 + index * 0.1 }}
                     className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
                   >
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">{education.degree}</h4>
+                    <h4 className="text-xl font-semibold text-white mb-2">{education.degree}</h4>
                     <p className="text-lg text-blue-600 font-medium mb-2">{education.institution}</p>
 
                     <div className="flex items-center text-sm text-gray-500 mb-3">

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -89,46 +90,57 @@ export function LanguagesForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      {languages.map((language, index) => (
-        <div key={index} className="flex items-end gap-4">
-          <div className="flex-1 space-y-2">
-            <Label htmlFor={`language-${index}`}>Language</Label>
-            <Input
-              id={`language-${index}`}
-              value={language.name}
-              onChange={(e) => updateLanguage(index, 'name', e.target.value)}
-              placeholder="Language (e.g., English)"
-            />
+      {languages.length === 0 ? (
+        <Card>
+          <CardContent className="py-8 text-center text-sm text-muted-foreground">
+            No languages added yet. Click "Add Language" to get started.
+          </CardContent>
+        </Card>
+      ) : (
+        languages.map((language, index) => (
+          <div key={index} className="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <div className="md:col-span-5 space-y-2">
+              <Label htmlFor={`language-${index}`}>Language</Label>
+              <Input
+                id={`language-${index}`}
+                value={language.name}
+                onChange={(e) => updateLanguage(index, 'name', e.target.value)}
+                placeholder="Language (e.g., English)"
+              />
+            </div>
+            <div className="md:col-span-5 space-y-2">
+              <Label htmlFor={`level-${index}`}>Level</Label>
+              <Select
+                onValueChange={(value) => updateLanguage(index, 'level', value)}
+                value={language.level}
+              >
+                <SelectTrigger id={`level-${index}`}>
+                  <SelectValue placeholder="Select level" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="NATIVE">Native</SelectItem>
+                  <SelectItem value="ADVANCED">Advanced</SelectItem>
+                  <SelectItem value="INTERMEDIATE">Intermediate</SelectItem>
+                  <SelectItem value="BEGINNER">Beginner</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="md:col-span-2 flex items-end">
+              <Button
+                type="button"
+                variant="destructive"
+                size="icon"
+                onClick={() => removeLanguage(index)}
+                aria-label={`Remove language ${index + 1}`}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
-          <div className="flex-1 space-y-2">
-            <Label htmlFor={`level-${index}`}>Level</Label>
-            <Select
-              onValueChange={(value) => updateLanguage(index, 'level', value)}
-              value={language.level}
-            >
-              <SelectTrigger id={`level-${index}`}>
-                <SelectValue placeholder="Select level" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="NATIVE">Native</SelectItem>
-                <SelectItem value="ADVANCED">Advanced</SelectItem>
-                <SelectItem value="INTERMEDIATE">Intermediate</SelectItem>
-                <SelectItem value="BEGINNER">Beginner</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Button 
-            type="button" 
-            variant="destructive" 
-            size="icon" 
-            onClick={() => removeLanguage(index)}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </div>
-      ))}
-      
-      <div className="flex gap-2">
+        ))
+      )}
+
+      <div className="flex flex-wrap gap-2">
         <Button type="button" variant="outline" onClick={addLanguage}>
           <Plus className="h-4 w-4 mr-2" />
           Add Language

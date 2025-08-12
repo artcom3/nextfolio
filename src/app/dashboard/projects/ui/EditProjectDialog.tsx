@@ -36,10 +36,21 @@ import { toast } from "sonner";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  category: z.string().min(1, "Category is required"),
+  category: z.enum([
+    "DEVELOPMENT",
+    "GRAPHIC_DESIGN",
+    "INTERIOR",
+    "UI_UX",
+    "WRITING",
+    "OTHER",
+  ], { message: "Category is required" }),
   description: z.string().optional(),
   link: z.string().optional(),
-  status: z.string().min(1, "Status is required"),
+  status: z.enum([
+    "FEATURED",
+    "COLLABORATIVE",
+    "IN_PROGRESS",
+  ], { message: "Status is required" }),
 });
 
 interface EditProjectDialogProps {
@@ -124,11 +135,11 @@ export function EditProjectDialog({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="WEB_APP">Web App</SelectItem>
-                        <SelectItem value="MOBILE_APP">Mobile App</SelectItem>
-                        <SelectItem value="DESKTOP_APP">Desktop App</SelectItem>
-                        <SelectItem value="API">API</SelectItem>
-                        <SelectItem value="LIBRARY">Library</SelectItem>
+                        <SelectItem value="DEVELOPMENT">Development</SelectItem>
+                        <SelectItem value="GRAPHIC_DESIGN">Graphic Design</SelectItem>
+                        <SelectItem value="INTERIOR">Interior</SelectItem>
+                        <SelectItem value="UI_UX">UI/UX</SelectItem>
+                        <SelectItem value="WRITING">Writing</SelectItem>
                         <SelectItem value="OTHER">Other</SelectItem>
                       </SelectContent>
                     </Select>
@@ -149,11 +160,9 @@ export function EditProjectDialog({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="PLANNING">Planning</SelectItem>
+                        <SelectItem value="FEATURED">Featured</SelectItem>
+                        <SelectItem value="COLLABORATIVE">Collaborative</SelectItem>
                         <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-                        <SelectItem value="COMPLETED">Completed</SelectItem>
-                        <SelectItem value="ON_HOLD">On Hold</SelectItem>
-                        <SelectItem value="CANCELLED">Cancelled</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
