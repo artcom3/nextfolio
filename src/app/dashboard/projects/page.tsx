@@ -1,11 +1,11 @@
-import { getAllProjects } from "@/actions/dashboard/projects/get-projects";
+import { getUserProjectsForDashboard } from "@/actions/dashboard/projects/get-projects";
 import { DataTable } from "@/components";
 import { projectsColumns } from "./ui/ProjectColumns";
 import { AddProjectDialog } from "./ui/AddProjectDialog";
 
 export default async function ProjectsPage() {
 
-  const projects = await getAllProjects()
+  const projects = await getUserProjectsForDashboard()
 
   return (
     <>
