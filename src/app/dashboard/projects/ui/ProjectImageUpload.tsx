@@ -53,7 +53,7 @@ export function ProjectImageUpload({ projectId, projectTitle }: ProjectImageUplo
     fetchImages();
   }, [projectId]);
 
-  const handleImageUpload = async (file: File | null, previewUrl?: string) => {
+  const handleImageUpload = async (file: File | null) => {
     if (!file) return;
 
     setIsUploading(true);

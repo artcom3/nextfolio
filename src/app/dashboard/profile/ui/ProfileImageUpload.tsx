@@ -36,7 +36,7 @@ export function ProfileImageUpload({ userId, initialImageUrl }: ProfileImageUplo
     }
   }, [userId, initialImageUrl]);
 
-  const handleImageChange = async (file: File | null, previewUrl?: string) => {
+  const handleImageChange = async (file: File | null) => {
     if (!file) {
       return;
     }

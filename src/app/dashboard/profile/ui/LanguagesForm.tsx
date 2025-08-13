@@ -93,7 +93,7 @@ export function LanguagesForm() {
       {languages.length === 0 ? (
         <Card>
           <CardContent className="py-8 text-center text-sm text-muted-foreground">
-            No languages added yet. Click "Add Language" to get started.
+            No languages added yet. Click &ldquo;Add Language&rdquo; to get started.
           </CardContent>
         </Card>
       ) : (
